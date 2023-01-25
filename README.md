@@ -6,19 +6,32 @@ It is my attempt to build REST API Using Typescript & NestJS.
 
 - [Overview](#CarDeal)
 - [Resources](#Resources)
-- [Local Developement](#Local_Developement)
 - [Demo](#CarDeal)
 - [Built with](#built-with)
+- [Local Developement](#Local_Developement)
 - [Author](#author)
 
 ## CarDeal
 
-CardDeal is a simple fictional application that allows users to get an instant online car valuation. In other words, carDeal will allow users to get an estimate of what they car is worth if they planning on buying or selling a car.
+CardDeal is a simple fictional application that allows users to get an instant online car valuation. In other words, carDeal helps users to get an estimate of what they car is worth if they planning on buying or selling a car.
 
 ## Resources
 
 1. User - to manage authentication and CRUD actions around a user
 2. Report - to manage CRUD actions around the valuation report
+
+## Demo
+
+A client is available at:
+
+- Live Site URL: [CarDeal Demo](https://invoicev1.herokuapp.com/)
+
+## Built with
+
+- [Typescript](https://www.typescriptlang.org/docs/) - JavaScript with syntax for types.
+- [Nestjs](https://expressjs.com/) - Framework for Node.js that fully supports TypeScript
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [Redis](https://www.postgresql.org/) - Session storage
 
 ## Local_Developement
 
@@ -59,19 +72,6 @@ CardDeal is a simple fictional application that allows users to get an instant o
   - Prepare environment - `docker-compose -f docker-compose.test.yaml up -d`
   - Run tests - `npm run test`
   - Run tests with coverage - `npm run test:cov`
-
-## Demo
-
-A client is available at:
-
-- Live Site URL: [CarDeal Demo](https://invoicev1.herokuapp.com/)
-
-## Built with
-
-- [Typescript](https://www.typescriptlang.org/docs/) - JavaScript with syntax for types.
-- [Nestjs](https://expressjs.com/) - Framework for Node.js that fully supports TypeScript
-- [PostgreSQL](https://www.postgresql.org/) - Database
-- [Redis](https://www.postgresql.org/) - Session storage
 
 ## Author
 
