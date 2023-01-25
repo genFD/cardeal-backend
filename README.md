@@ -1,6 +1,6 @@
 # Typescript backend
 
-It is my attempt to build REST API Using Typescript & NestJS.
+It is my attempt to build REST API Using NestJS.
 
 ## Table of contents
 
@@ -29,7 +29,8 @@ A client is available at:
 ## Built with
 
 - [Typescript](https://www.typescriptlang.org/docs/) - JavaScript with syntax for types.
-- [Nestjs](https://expressjs.com/) - Framework for Node.js that fully supports TypeScript
+- [Nestjs](https://docs.nestjs.com/) - Framework for Node.js that fully supports TypeScript
+- [Prisma](https://www.prisma.io/) - Next-gen Node.js and TypeScript ORM
 - [PostgreSQL](https://www.postgresql.org/) - Database
 - [Redis](https://www.postgresql.org/) - Session storage
 
