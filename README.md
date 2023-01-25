@@ -57,11 +57,9 @@ A client is available at:
 
     <details>
       <summary>
-        Expand to see Swagger documentation
         API documentation will be available on the endpoint <i>GET <a href="http://localhost:3000/api/" target="_blank" rel="noopener noreferrer">http://localhost:3000/api</a></i>
       </summary>
       <br>
-      
       <p align="center"> 
           <img src="./asset/ApiDocumentation.png">
       </p>
