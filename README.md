@@ -45,19 +45,20 @@ A client is available at:
 
   Services:
 
-  1. PostgreSQL - [Credentials](.env).
-  1. Redis - [Credentials](.env).
+  - PostgreSQL
+  - Redis
 
 * **Building**
 
-  1. Install libraries - `npm install`
-  2. Build application - `npm run build`
+  - Install libraries - `npm install`
+  - Build application - `npm run build`
 
 * Start application - `npm run start`
 
-  - Expose [./env/local.app.env](./env/local.app.env) and start application - `npm run start:local`
-
     <details>
+      <title>
+      Expand to checkout Swagger documentation
+      <title>
       <summary>
         API documentation will be available on the endpoint <i>GET <a href="http://localhost:3000/api/" target="_blank" rel="noopener noreferrer">http://localhost:3000/api</a></i>
       </summary>
