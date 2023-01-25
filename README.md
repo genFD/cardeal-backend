@@ -56,10 +56,8 @@ A client is available at:
 * Start application - `npm run start`
 
     <details>
-      <title>
-      Expand to checkout Swagger documentation
-      <title>
       <summary>
+        Expand to see Swagger documentation
         API documentation will be available on the endpoint <i>GET <a href="http://localhost:3000/api/" target="_blank" rel="noopener noreferrer">http://localhost:3000/api</a></i>
       </summary>
       <br>
