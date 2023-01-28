@@ -1,6 +1,6 @@
 # Typescript backend
 
-It is my attempt to build REST API Using NestJS.
+It is my attempt to build a REST API with NestJS and the Prisma in TypeScript.
 
 ## Table of contents
 
@@ -17,14 +17,14 @@ CardDeal is a simple fictional application that allows users to get an instant o
 
 ## Resources
 
-1. User - to manage authentication and CRUD actions around a user
-2. Report - to manage CRUD actions around the valuation report
+1. User - to manage authentication and CRUD operations around a user
+2. Report - to manage CRUD operations around the valuation report
 
 ## Demo
 
 A client is available at:
 
-- Live Site URL: [CarDeal Demo](https://invoicev1.herokuapp.com/)
+- Live Demo URL: [CarDeal Demo](https://invoicev1.herokuapp.com/)
 
 ## Built with
 
