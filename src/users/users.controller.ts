@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,14 +15,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Users } from './entities/user.entity';
 
-@ApiTags('Users')
 @Controller('users')
+@ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('/auth/signup')
-  create(@Body() body: CreateUserDto) {
-    return this.usersService.create(body);
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
   @Get()
@@ -33,17 +34,22 @@ export class UsersController {
   @Get(':id')
   @ApiOkResponse({ type: Users })
   async findOne(@Param('id') id: string) {
-    const user = await this.usersService.findOne(id);
-    if (!user) {
-      throw new NotFoundException(`User ${id} does not exist`);
-    }
+    const user = await this.usersService.findOneById(id);
+    if (!user) throw new NotFoundException(`User ${id} not found`);
+    return user;
+  }
+  @Get('/email/first')
+  @ApiOkResponse({ type: Users })
+  async findOneByEmail(@Query('email') email: string) {
+    const user = await this.usersService.findOneByEmail(email);
+    if (!user) throw new NotFoundException(`User ${email} not found`);
     return user;
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: Users })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(@Param('id') id: string, @Body() data: UpdateUserDto) {
+    return this.usersService.update(id, data);
   }
 
   @Delete(':id')

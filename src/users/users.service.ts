@@ -1,31 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-  create(body: CreateUserDto) {
-    return this.prisma.user.create({ data: body });
+  create(createUserDto: CreateUserDto) {
+    return 'This action adds a new user';
   }
 
   findAll() {
     return this.prisma.user.findMany();
   }
 
-  async findOne(id: string) {
-    return await this.prisma.user.findUnique({ where: { id } });
+  async findOneById(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!id) return null;
+    if (!user) throw new NotFoundException(`Cannot find user with id ${id}`);
+    return user;
   }
 
-  update(id: string, attrs: UpdateUserDto) {
+  async findOneByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (!email) return null;
+    if (!user)
+      throw new NotFoundException(`Cannot find user with email ${email}`);
+    return user;
+  }
+
+  update(id: string, data: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },
-      data: attrs,
+      data,
     });
   }
 
   remove(id: string) {
-    return this.prisma.user.delete({ where: { id } });
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }

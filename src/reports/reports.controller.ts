@@ -12,8 +12,8 @@ import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Reports')
 @Controller('reports')
+@ApiTags('Reports')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 

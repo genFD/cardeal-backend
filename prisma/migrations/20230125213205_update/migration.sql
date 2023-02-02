@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Report" ALTER COLUMN "mileage" SET DATA TYPE DECIMAL(65,30);

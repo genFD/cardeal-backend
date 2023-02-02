@@ -1,46 +1,17 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  password String
-  admin    Boolean @default(true)
-  // reports  Report[]
+generator client {
+  provider = "prisma-client-js"
 }
 
-// model Report {
-//   id           String       @id @default(uuid())
-//   price        Decimal      @db.Money
-//   color        String
-//   transmission TRANSMISSION
-//   fuel_type    FUELTYPE
-//   make         String
-//   model        String
-//   year         Int
-//   mileage      Decimal
-//   approved     Boolean      @default(false)
-//   user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId       String?
-// }
-
-// enum FUELTYPE {
-//   GASOLINE
-//   DIESEL
-//   HYBRID
-//   ELECTRIC
-// }
-
-// enum TRANSMISSION {
-//   AUTOMATIC
-//   MANUAL
-// }
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+}
