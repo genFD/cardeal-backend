@@ -1,6 +1,6 @@
 # Typescript backend
 
-It is my attempt to build a REST API with NestJS and the Prisma in TypeScript.
+It is my attempt to build a REST API with NestJS, Prisma and TypeScript.
 
 ## Table of contents
 
