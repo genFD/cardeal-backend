@@ -1,13 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  create(email: string, password: string) {
+    return this.prisma.user.create({ data: { email, password } });
   }
 
   findAll() {
@@ -31,9 +30,9 @@ export class UsersService {
         email: email,
       },
     });
-    if (!email) return null;
-    if (!user)
-      throw new NotFoundException(`Cannot find user with email ${email}`);
+    // if (!email) return null;
+    // if (!user)
+    //   throw new NotFoundException(`Cannot find user with email ${email}`);
     return user;
   }
 

@@ -14,15 +14,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Users } from './entities/user.entity';
+import { Serialize } from 'src/interceptors/custom.interceptor';
+import { UserDto } from './dto/users.dto';
 
+@Serialize(UserDto)
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() body: CreateUserDto) {
+    return this.usersService.create(body.email, body.password);
   }
 
   @Get()
