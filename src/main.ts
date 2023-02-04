@@ -3,7 +3,9 @@ import { AppModule } from './app.module';
 import { swaggerConfig } from 'config/docs/swaggerconfig';
 import { SwaggerModule } from '@nestjs/swagger';
 import { validationPipe } from '../config/validation/validationConfig';
-import cookieSession from 'cookie-session';
+// import cookieSession from 'cookie-session';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cookieSession = require('cookie-session');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
