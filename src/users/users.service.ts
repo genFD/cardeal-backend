@@ -30,9 +30,6 @@ export class UsersService {
         email: email,
       },
     });
-    // if (!email) return null;
-    // if (!user)
-    //   throw new NotFoundException(`Cannot find user with email ${email}`);
     return user;
   }
 

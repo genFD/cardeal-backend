@@ -26,4 +26,9 @@ export class AuthController {
   signup(@Body() body: CreateUserDto) {
     return this.authService.signup(body.email, body.password);
   }
+  @Post('/signin')
+  @ApiOkResponse({ type: Users })
+  signin(@Body() body: CreateUserDto) {
+    return this.authService.signin(body.email, body.password);
+  }
 }
