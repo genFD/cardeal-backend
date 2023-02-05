@@ -6,3 +6,8 @@ export const CurrentUser = createParamDecorator(
     return request.currentUser;
   },
 );
+
+// @Get('/whoami')
+// whoAmI(@CurrentUser() currentUser: Users) {
+//   return currentUser;
+// }
