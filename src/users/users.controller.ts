@@ -17,7 +17,7 @@ import { Users } from './entities/user.entity';
 import { Serialize } from 'src/interceptors/custom.interceptor';
 import { UserDto } from './dto/users.dto';
 
-// @Serialize(UserDto)
+@Serialize(UserDto)
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {

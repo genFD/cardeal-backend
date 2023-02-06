@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { Users } from '../users/entities/user.entity';
 
 @Injectable()
 export class ReportsService {
-  create(createReportDto: CreateReportDto) {
-    return 'This action adds a new report';
-  }
+  constructor(private prisma: PrismaService) {}
 
-  findAll() {
-    return `This action returns all reports`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} report`;
-  }
-
-  update(id: number, updateReportDto: UpdateReportDto) {
-    return `This action updates a #${id} report`;
+  async create(report: CreateReportDto, user: Users) {
+    console.log('created');
+    const newReport = await this.prisma.report.create({
+      data: {
+        ...report,
+        author: {
+          connect: { id: user.id },
+        },
+      },
+    });
+    return newReport;
   }
 
   remove(id: number) {

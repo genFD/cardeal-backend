@@ -14,13 +14,12 @@ import { Users } from 'src/users/entities/user.entity';
 import { Serialize } from 'src/interceptors/custom.interceptor';
 import { UserDto } from '../users/dto/users.dto';
 import { UsersService } from '../users/users.service';
-import { CurrentUserInterceptor } from './interceptor/current.user.interceptor';
 import { CurrentUser } from './decorators/current.user.decorator';
 import { AuthGuard } from './guards/auth.guard';
+
 @Controller('auth')
 @ApiTags('Auth')
 @Serialize(UserDto)
-@UseInterceptors(CurrentUserInterceptor)
 export class AuthController {
   constructor(
     private readonly authService: AuthService, // private readonly usersService: UsersService,
@@ -53,6 +52,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('/whoami')
   whoAmI(@CurrentUser() currentUser: Users) {
+    console.log(currentUser);
     return currentUser;
   }
 }
