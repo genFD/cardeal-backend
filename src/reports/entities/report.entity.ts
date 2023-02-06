@@ -3,6 +3,8 @@ import { FUELTYPE, Report, TRANSMISSION } from '@prisma/client';
 
 export class Reports implements Report {
   approved: boolean;
+  // @ApiProperty()
+  // approved: boolean;
   @ApiProperty()
   authorId: string;
   @ApiProperty()

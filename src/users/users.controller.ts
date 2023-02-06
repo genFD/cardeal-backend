@@ -41,6 +41,7 @@ export class UsersController {
     if (!user) throw new NotFoundException(`User ${id} not found`);
     return user;
   }
+
   @Get('/email/first')
   @ApiOkResponse({ type: Users })
   async findOneByEmail(@Query('email') email: string) {

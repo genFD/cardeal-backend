@@ -1,14 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { FUELTYPE, TRANSMISSION } from '@prisma/client';
-import { IsBoolean, IsNumber, IsString, Max, Min } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNumber, IsString, Max, Min } from 'class-validator';
 
-export class CreateReportDto {
-  @ApiProperty()
-  @IsNumber()
-  @Min(0)
-  @Max(1000000)
-  price: number;
-
+export class GetEstimateDto {
   @ApiProperty()
   @IsString()
   make: string;
@@ -16,6 +11,14 @@ export class CreateReportDto {
   @ApiProperty()
   @IsString()
   model: string;
+
+  @ApiProperty()
+  @Transform(({ value }) => parseInt(value))
+  @IsNumber()
+  @Min(1930)
+  @Max(2050)
+  year: number;
+
   @ApiProperty()
   @IsString()
   color: string;
@@ -29,12 +32,7 @@ export class CreateReportDto {
   fuel_type: FUELTYPE;
 
   @ApiProperty()
-  @IsNumber()
-  @Min(1930)
-  @Max(2050)
-  year: number;
-
-  @ApiProperty()
+  @Transform(({ value }) => parseInt(value))
   @IsNumber()
   @Min(0)
   @Max(1000000)
