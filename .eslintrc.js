@@ -58,19 +58,11 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   rules: {
     quotes: ['error', 'single'],
-    // indent: [
-    //   'error',
-    //   2,
-    //   {
-    //     MemberExpression: 1,
-    //   },
-    // ],
     '@typescript-eslint/typedef': [
       'error',
       {
         memberVariableDeclaration: true,
         propertyDeclaration: true,
-        // variableDeclaration: true,
         variableDeclarationIgnoreFunction: true,
         arrowParameter: false,
       },
