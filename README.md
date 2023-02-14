@@ -13,7 +13,7 @@ It is my attempt to build a REST API with NestJS, Prisma and TypeScript.
 
 ## CarDeal
 
-CardDeal is a simple fictional application that allows users to get an instant online car valuation. In other words, carDeal helps users to get an estimate of what they car is worth if they planning on buying or selling a car.
+CardDeal is a simple fictional application that allows users to purchased used cars and get an instant online car valuation.
 
 ## Resources
 
