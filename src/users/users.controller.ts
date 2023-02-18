@@ -14,8 +14,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Users } from './entities/user.entity';
-import { Serialize } from 'src/interceptors/custom.interceptor';
 import { UserDto } from './dto/users.dto';
+import { Serialize } from '../interceptors/custom.interceptor';
 
 @Serialize(UserDto)
 @Controller('users')
