@@ -14,7 +14,7 @@ export class AuthService {
   async signup(email: string, password: string) {
     //1- check if email is already in use
     const user = await this.usersService.findOneByEmail(email);
-    if (user) throw new BadRequestException(`${email} is already taken `);
+    if (!user) throw new BadRequestException(`${email} is already taken`);
 
     //2-  Encrypt user's password
     const hashedAndSaltedPassword = await bcrypt.hash(password, 10);
