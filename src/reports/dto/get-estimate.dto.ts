@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FUELTYPE, TRANSMISSION } from '@prisma/client';
+// import { FUELTYPE, TRANSMISSION } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsString, Max, Min } from 'class-validator';
 
@@ -25,11 +25,11 @@ export class GetEstimateDto {
 
   @ApiProperty()
   @IsString()
-  transmission: TRANSMISSION;
+  transmission: string;
 
   @ApiProperty()
   @IsString()
-  fuel_type: FUELTYPE;
+  fuel_type: string;
 
   @ApiProperty()
   @Transform(({ value }) => parseInt(value))

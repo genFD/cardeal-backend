@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FUELTYPE, Report, TRANSMISSION } from '@prisma/client';
+import { Report } from '@prisma/client';
 
 export class Reports implements Report {
   approved: boolean;
@@ -18,9 +18,9 @@ export class Reports implements Report {
   @ApiProperty()
   color: string;
   @ApiProperty()
-  transmission: TRANSMISSION;
+  transmission: string;
   @ApiProperty()
-  fuel_type: FUELTYPE;
+  fuel_type: string;
   @ApiProperty()
   year: number;
   @ApiProperty()

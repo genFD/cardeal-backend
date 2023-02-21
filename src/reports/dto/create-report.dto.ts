@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FUELTYPE, TRANSMISSION } from '@prisma/client';
-import { IsBoolean, IsNumber, IsString, Max, Min } from 'class-validator';
+// import { FUELTYPE, TRANSMISSION } from '@prisma/client';
+import { IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateReportDto {
   @ApiProperty()
@@ -22,11 +22,11 @@ export class CreateReportDto {
 
   @ApiProperty()
   @IsString()
-  transmission: TRANSMISSION;
+  transmission: string;
 
   @ApiProperty()
   @IsString()
-  fuel_type: FUELTYPE;
+  fuel_type: string;
 
   @ApiProperty()
   @IsNumber()
