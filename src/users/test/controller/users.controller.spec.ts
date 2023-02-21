@@ -31,7 +31,9 @@ describe('UsersController', () => {
       beforeEach(async () => {
         user = await controller.findOne(createUserStub().id);
       });
-
+      // afterEach(() => {
+      //   jest.clearAllMocks();
+      // });
       test('then it should call usersService', () => {
         expect(service.findOneById).toBeCalledWith(createUserStub().id);
       });

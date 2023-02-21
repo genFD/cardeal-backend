@@ -7,3 +7,12 @@ export const createUserStub = (): Users => {
     admin: false,
   };
 };
+
+// export const saveUserStub = (user: {
+//   id: string;
+//   email: string;
+//   password: string;
+//   admin: boolean;
+// }): Users => {
+//   return user;
+// };

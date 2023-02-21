@@ -19,27 +19,27 @@ model User {
 }
 
 model Report {
-  id           String       @id @default(uuid())
+  id           String  @id @default(uuid())
   price        Int
   make         String
   model        String
   color        String
-  transmission TRANSMISSION
-  fuel_type    FUELTYPE
+  transmission String
+  fuel_type    String
   year         Int
   mileage      Int
-  approved     Boolean      @default(false)
-  author       User?        @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  approved     Boolean @default(false)
+  author       User?   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId     String?
 }
 
-enum TRANSMISSION {
-  MANUAL
-  AUTOMATIC
-}
+// enum TRANSMISSION {
+//   MANUAL
+//   AUTOMATIC
+// }
 
-enum FUELTYPE {
-  GASOLINE
-  HYBRID
-  ELECTRIC
-}
+// enum FUELTYPE {
+//   GASOLINE
+//   HYBRID
+//   ELECTRIC
+// }
