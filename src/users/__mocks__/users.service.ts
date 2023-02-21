@@ -3,12 +3,13 @@ import { createUserStub } from '../test/stubs/user.stub';
 export const UsersService = jest.fn().mockReturnValue({
   findAll: jest.fn().mockResolvedValue([createUserStub()]),
 
-  findOneById: jest.fn().mockResolvedValue(createUserStub()),
+  findOneById: jest.fn((id: string) => {
+    if (id === createUserStub().id) return Promise.resolve(createUserStub());
+  }),
 
   findOneByEmail: jest.fn((email: string) => {
-    if (email === createUserStub().email) {
+    if (email === createUserStub().email)
       return Promise.resolve(createUserStub());
-    }
   }),
 
   create: jest.fn((email: string, password: string) => {
