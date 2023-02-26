@@ -2,9 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Report } from '@prisma/client';
 
 export class Reports implements Report {
+  @ApiProperty()
   approved: boolean;
-  // @ApiProperty()
-  // approved: boolean;
   @ApiProperty()
   authorId: string;
   @ApiProperty()
