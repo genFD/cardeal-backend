@@ -1,19 +1,22 @@
-import { createReportStub } from '../../reports/test/stubs/reports.stub';
-import { prismaMock } from './singleton';
+import { Reports } from '../../reports/entities/report.entity';
 
-// export const PrismaService = jest.fn().mockReturnValue({
-//   createReport: jest.fn((report, user) => {
-//     prismaMock.report.create({
-//       data: {
-//         ...report,
-//         author: {
-//           connect: { id: user.id },
-//         },
-//       },
-//     });
-//   }),
+export const PrismaService = jest.fn().mockReturnValue({
+  report: {
+    // create: jest.fn((report: Reports) => {
+    //   console.log(report);
 
-  // update: jest.fn().mockResolvedValue(createUserStub()),
-
-  // remove: jest.fn().mockResolvedValue(createUserStub()),
+    //   return Promise.resolve(report);
+    // }),
+    create: jest.fn((report: Reports) => {
+      return report;
+    }),
+    update: jest.fn((id, approved) => {
+      return { approved: approved };
+    }),
+  },
+  user: {
+    create: () => {
+      console.log('new user');
+    },
+  },
 });

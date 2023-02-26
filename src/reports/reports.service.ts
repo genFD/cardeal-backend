@@ -10,7 +10,7 @@ export class ReportsService {
   constructor(private prisma: PrismaService) {}
 
   async create(report: CreateReportDto, user: Users) {
-    const newReport = await this.prisma.report.create({
+    return await this.prisma.report.create({
       data: {
         ...report,
         author: {
@@ -18,7 +18,6 @@ export class ReportsService {
         },
       },
     });
-    return newReport;
   }
 
   async approveReport(id: string, approved: boolean) {
@@ -83,12 +82,12 @@ export class ReportsService {
     return report;
   }
 
-  // update(id: string, data: UpdateReportDto) {
-  //   return this.prisma.report.update({
-  //     where: { id },
-  //     data,
-  //   });
-  // }
+  update(id: string, data: UpdateReportDto) {
+    return this.prisma.report.update({
+      where: { id },
+      data,
+    });
+  }
 
   remove(id: string) {
     return this.prisma.report.delete({ where: { id } });

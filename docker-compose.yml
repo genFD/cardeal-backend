@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  database:
+  dev-db:
     image: postgres:latest
     restart: always
     environment:
@@ -10,6 +10,16 @@ services:
       - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+  test-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    # volumes:
+    # - db:/var/lib/postgresql/data
 volumes:
   db:
     driver: local
