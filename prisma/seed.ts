@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './libs/prisma';
 import { reportData, userData } from './data';
 
-export const prisma = new PrismaClient();
 // 0e5c503c-ddea-4cfc-a789-4c913273ace4
 // e5d7f1d2-48b0-46f7-9eee-b5e0be377c8d
 async function main() {
