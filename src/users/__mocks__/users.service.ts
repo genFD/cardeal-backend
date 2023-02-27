@@ -1,5 +1,12 @@
-import { createUserStub } from '../test/stubs/user.stub';
-
+import { Users } from '../entities/user.entity';
+export const createUserStub = (): Users => {
+  return {
+    id: 'userstubId',
+    email: 'userStub@email.com',
+    password: 'password',
+    admin: false,
+  };
+};
 export const UsersService = jest.fn().mockReturnValue({
   findAll: jest.fn().mockResolvedValue([createUserStub()]),
 
