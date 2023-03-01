@@ -1,4 +1,4 @@
-import { createUserStub } from '../../users/test/stubs/user.stub';
+import { createUserStub } from '../../users/__mocks__/users.service';
 
 export const AuthService = jest.fn().mockReturnValue({
   signup: jest.fn((email: string, password: string) => {

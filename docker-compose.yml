@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  nest-api:
+    container_name: nest-api
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - 8000:8000
+    depends_on:
+      - dev-db
+    env_file:
+      - .env
   dev-db:
     image: postgres:latest
     restart: always
@@ -8,18 +19,20 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - '5432:5432'
+    env_file:
+      - .env
     volumes:
       - db:/var/lib/postgresql/data
-  test-db:
-    image: postgres:latest
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5433:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
+  # test-db:
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - '5433:5432'
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
 volumes:
   db:
-    driver: local
+    name: nest-db
