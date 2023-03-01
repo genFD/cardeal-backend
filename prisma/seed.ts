@@ -7,8 +7,10 @@ async function main() {
   try {
     await prisma.user.createMany({
       data: [
-        { email: 'martin@email.io', password: 'password' },
-        { email: 'ben@email.io', password: 'password' },
+        // { email: 'martin@email.io', password: 'password' },
+        // { email: 'ben@email.io', password: 'password' },
+        { email: 'saliba@email.io', password: 'password' },
+        { email: 'gabriel@email.io', password: 'password' },
       ],
     });
     // await prisma.report.createMany({
