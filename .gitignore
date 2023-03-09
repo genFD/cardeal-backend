@@ -36,3 +36,8 @@ lerna-debug.log*
 
 .env
 .env.test
+PR_ex.txt
+Readme_prof_template.md
+/template
+/Issue_template
+/template/Contributing.md
