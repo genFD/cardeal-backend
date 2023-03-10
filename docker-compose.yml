@@ -1,10 +1,11 @@
 services:
-  api:
+  dev:
+    container_name: nestjs_api_dev
+    image: nestjs-api-dev:1.0.0
     build:
       context: .
-      dockerfile: Dockerfile
-      #  will build image from development stage 
-      target: dev
+      target: development
+      dockerfile: ./Dockerfile
     ports:
       - 8000:8000
     depends_on:
@@ -13,13 +14,33 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      #  bind mount src code and src code inside container("hot reload") 
     volumes:
-      -  .:/usr/src/app/
-      -  /usr/src/app/node_modules 
-      #ensures that the NestJS container manages the node_modules folder (rather than being synced with the host machine)
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
     command: npm run start:migrate
-   
+
+  prod:
+    container_name: nestjs_api_prod
+    image: nestjs-api-prod:1.0.0
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    # command: npm run start:prod
+
   postgres:
     image: postgres
     restart: always
@@ -33,17 +54,5 @@ services:
       - .env
     volumes:
       - nest-postgres:/var/lib/postgresql/data
-  # test-postgres:
-  #   image: postgres
-  #   restart: always
-  #   environment:
-  #    POSTGRES_DB: ${POSTGRES_DB}
-  #    POSTGRES_USER: ${POSTGRES_USER}
-  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #   env_file:
-  #     - .env.test
-  #   ports:
-  #     - '5433:5433'  
 volumes:
   nest-postgres:
-  
