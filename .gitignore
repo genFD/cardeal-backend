@@ -41,3 +41,7 @@ Readme_prof_template.md
 /template
 /Issue_template
 /template/Contributing.md
+*.key.json
+*key.json
+.terraform/
+docker-nodeJS-CheatSheet.pdf

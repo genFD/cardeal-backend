@@ -11,6 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:migrate": "prisma migrate dev && prisma db seed && npm run start:dev",
+    "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -94,8 +95,8 @@
     "testEnvironment": "node"
   },
   "prisma": {
-    "seed": "ts-node src/database/prisma/seed.ts",
+    "seed": "ts-node prisma/seed.ts",
     "seed-test": "ts-node prisma/seed.ts",
-    "schema": "src/database/schema.prisma"
+    "schema": "prisma/schema.prisma"
   }
 }
