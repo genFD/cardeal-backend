@@ -38,21 +38,11 @@ terraform-check-workspace:
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform workspace list
 
-terraform-format-modules:
-	@cd terraform/modules/web-app && \
-	terraform fmt \
+terraform-format: 
+	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -write {} \;
 
-terraform-format-app:
-	@cd terraform/applications/${PROJECT_NAME} && \
-	terraform fmt \
-
-terraform-validate-modules:
-	@cd terraform/modules/web-app && \
-	terraform validate \
-
-terraform-validate-app:
-	@cd terraform/applications/${PROJECT_NAME} && \
-	terraform validate \
+terraform-validate:
+	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
 
 
 terraform-switch-workspace:check-env
