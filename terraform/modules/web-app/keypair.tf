@@ -10,5 +10,5 @@
 
 # resource "aws_key_pair" "key_pair" {
 #   key_name   = "deployer-key"
-#   public_key = var.path_public_key
+#   public_key = file(var.path_public_key)
 # }

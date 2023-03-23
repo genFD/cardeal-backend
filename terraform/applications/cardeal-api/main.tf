@@ -21,20 +21,32 @@ provider "aws" {
 locals {
   environment_name = terraform.workspace
 }
+variable "db_pass" {
+  description = "password for database #dev"
+  type        = string
+  sensitive   = true
+}
 
 module "web_app" {
   source = "../../modules/web-app"
 
   # Input Variables
+  app_name = "cardeal-api"
+
   prefix = "${local.environment_name}-cardeal"
+
   # bucket_prefix    = "cardeal-tf-state-${local.environment_name}"
   # domain           = "devopsdeployed.com"
   environment_name = local.environment_name
   instance_type    = "t2.micro"
-  # path_public_key  = "$HOME/.ssh/aws_001.pub"
+  path_public_key  = "~/.ssh/aws_001.pub"
   # create_dns_zone  = terraform.workspace == "production" ? true : false
-  # db_name          = "${local.environment_name}-cardeal-db"
-  # db_user          = "postgres"
-  # db_pass          = var.db_pass
+  storage_type   = "gp2"
+  engine         = "postgres"
+  engine_version = "12"
+  instance_class = "db.t2.micro"
+  db_name        = "cardealapidbdev"
+  db_user        = "postgres"
+  db_pass        = var.db_pass
 }
 

@@ -52,10 +52,10 @@ variable "prefix" {
   type        = string
 }
 
-# variable "path_public_key" {
-#   description = "Public key"
-#   type        = string
-# }
+variable "path_public_key" {
+  description = "Public key"
+  type        = string
+}
 
 
 # EC2 Variables
@@ -109,22 +109,44 @@ variable "subdomain" {
 
 # RDS Variables
 
-# variable "db_name" {
-#   description = "Name of DB"
-#   type        = string
-# }
 
-# variable "db_user" {
-#   description = "Username for DB"
-#   type        = string
-# }
+variable "storage_type" {
+  description = "Type of storage"
+  type        = string
+}
 
-# variable "db_pass" {
-#   description = "Password for DB"
-#   type        = string
-#   sensitive   = true
-# }
+variable "engine" {
+  description = "Type of db engine (postgres|mysql|etc..)"
+  type        = string
+}
 
+variable "engine_version" {
+  description = "engine version"
+  type        = string
+}
+
+variable "instance_class" {
+  description = "instance class"
+  type        = string
+}
+
+variable "db_name" {
+  description = "Name of DB"
+  type        = string
+}
+
+variable "db_user" {
+  description = "Username for DB"
+  type        = string
+}
+
+variable "db_pass" {
+  description = "Password for DB"
+  type        = string
+  sensitive   = true
+}
+
+# ECR Variables
 
 variable "ecr_image_api" {
   description = "ECR Image for API"
