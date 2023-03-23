@@ -26,6 +26,13 @@ variable "db_pass" {
   type        = string
   sensitive   = true
 }
+output "db_host" {
+  value = module.web_app.db_host
+}
+
+output "bastion_host" {
+  value = module.web_app.bastion_host
+}
 
 module "web_app" {
   source = "../../modules/web-app"

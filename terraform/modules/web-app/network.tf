@@ -20,6 +20,13 @@
 #  Route table association |                      |   2           #
 #  Route                   |                      |   2           #
 ###################################################################
+#                 # Security groups #                             #
+#                -------------------------------                  #
+#                        |                         |     #
+# Security groups        |  bastion_network_access |   1  
+#    -                   |  rds                   |   1  
+# Subnet group           |  main                 |  1
+###################################################################
 
 resource "aws_vpc" "main" {
   cidr_block           = "10.1.0.0/16"
@@ -203,4 +210,89 @@ resource "aws_route" "private_b_internet_out" {
   route_table_id         = aws_route_table.private_b.id
   nat_gateway_id         = aws_nat_gateway.public_b.id
   destination_cidr_block = "0.0.0.0/0"
+}
+
+############
+#Security Groups
+
+##
+#bastion
+
+resource "aws_security_group" "bastion_network_access" {
+  name        = "${var.prefix}-bastion-network-access"
+  description = "security group that allows ssh and inbound and outbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  #SSH
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  #HTTPS
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  #HTTP
+  egress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  #POSTGRES
+  egress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.private_a.cidr_block, aws_subnet.private_b.cidr_block]
+  }
+
+  tags = {
+    Name = "${var.prefix}-bastion-network-access"
+  }
+}
+
+
+
+
+########
+#db
+resource "aws_db_subnet_group" "main" {
+  name = "${var.prefix}-main"
+  subnet_ids = [
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id
+  ]
+
+  tags = {
+    Name = "${var.prefix}-db_subnet_group"
+  }
+}
+
+resource "aws_security_group" "rds" {
+  description = "Allow access to the RDS database instance."
+  name        = "${var.prefix}-rds-inbound-access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    protocol  = "tcp"
+    from_port = 5432
+    to_port   = 5432
+    #TODO: REMOVE THAT LINE BELOW WHEN ECS IS COMPLETED
+    security_groups = [
+      aws_security_group.bastion_network_access.id
+    ]
+    #FINAL LINE WHEN ECS IS COMPLETED
+    # security_groups = [
+    #   aws_security_group.bastion_network_access.id, aws_security_group.ecs_service.id,
+    # ]
+  }
+  tags = {
+    Name = "${var.prefix}-security-group-RDS"
+  }
 }
