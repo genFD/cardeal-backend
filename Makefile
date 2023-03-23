@@ -1,7 +1,6 @@
 #############################################
 # VARIABLES
 PROJECT_NAME=cardeal-api
-PROJECT_ID=iron-foundry-380217
 TF_ACTION?=plan
 ZONE=us-central1-c
 USER=hk.dev
@@ -36,21 +35,25 @@ rebuild:
 # TERRAFORM
 
 terraform-check-workspace:
-	cd terraform/applications/${PROJECT_NAME} && \
+	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform workspace list
 
-terraform-format:
+terraform-format-modules:
+	@cd terraform/modules/web-app && \
+	terraform fmt \
+
+terraform-format-app:
 	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform fmt && \
-		cd modules/web-app && \
-		terraform fmt
-	
-terraform-validate:
+	terraform fmt \
+
+terraform-validate-modules:
+	@cd terraform/modules/web-app && \
+	terraform validate \
+
+terraform-validate-app:
 	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform validate && \
-		cd modules/web-app && \
-		terraform validate
-	
+	terraform validate \
+
 
 terraform-switch-workspace:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
@@ -65,16 +68,6 @@ terraform-init:check-env
 		terraform workspace select ${ENV} && \
 		terraform init \
 	
-# terraform-action:check-env
-
-#		-backend-config="bucket=${ENV}-${PROJECT_NAME}-tf-state" \
-			-backend-config="dynamodb_table=${ENV}-${PROJECT_NAME}-tf-state-locking" \
-# 	@cd terraform && \
-# 		terraform workspace select ${ENV} && \
-# 		terraform ${TF_ACTION} -var-file='./environments/common.tfvars' \
-# 																									-var-file='./environments/${ENV}/config.tfvars' \
-# 																									-var='cloudflare_api_token=${call get-secret,cloudflare_api_token}' \
-
 terraform-action:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION}
@@ -114,8 +107,5 @@ deploy:check-env
 						--restart=unless-stopped \
 						-p 80:3000 \
 						-e PORT=3000  \
-						-e \"DATABASE_URL=postgresql://postgres:p1R4ViebzOg20MJMMYLx@containers-us-west-203.railway.app:6382/railway\" \
 						${REMOTE_TAG} \
 	'
-# nestgcpvm-staging.fsgig.com
-# -e \"DATABASE_URL=postgresql://postgres:p1R4ViebzOg20MJMMYLx@containers-us-west-203.railway.app:6382/railway\" \
