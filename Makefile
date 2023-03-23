@@ -44,7 +44,6 @@ terraform-format:
 terraform-validate:
 	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
 
-
 terraform-switch-workspace:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform workspace select ${ENV}
@@ -60,7 +59,7 @@ terraform-init:check-env
 	
 terraform-action:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform ${TF_ACTION}
+		terraform ${TF_ACTION} -var="db_pass=postgres"
 
 #############################################
 # SSH

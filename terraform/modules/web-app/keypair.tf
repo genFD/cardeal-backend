@@ -8,7 +8,7 @@
 
 
 
-# resource "aws_key_pair" "key_pair" {
-#   key_name   = "deployer-key"
-#   public_key = file(var.path_public_key)
-# }
+resource "aws_key_pair" "key_pair" {
+  key_name   = "aws_001"
+  public_key = file(var.path_public_key)
+}
