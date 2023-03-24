@@ -22,8 +22,8 @@ resource "aws_lb" "api" {
 
   security_groups = [aws_security_group.lb.id]
 
-  tags ={
-   Name = "${var.prefix}-main-load-balancer"
+  tags = {
+    Name = "${var.prefix}-main-load-balancer"
   }
 
 }
@@ -36,7 +36,7 @@ resource "aws_lb_target_group" "api" {
   port        = 8000
 
   health_check {
-    path = "/admin/login/"
+    path = "/"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_lb_listener" "api" {
 #   port              = 443
 #   protocol          = "HTTPS"
 
-  # certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
+# certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
 
 #   default_action {
 #     type             = "forward"

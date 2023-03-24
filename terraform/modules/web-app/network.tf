@@ -288,9 +288,9 @@ resource "aws_security_group" "ecs_service" {
     ]
 
   }
-tags = {
- Name = "${var.prefix}-ecs-service"
-}
+  tags = {
+    Name = "${var.prefix}-ecs-service"
+  }
 }
 
 ###Load balancer
@@ -323,7 +323,7 @@ resource "aws_security_group" "lb" {
 
   tags = {
     Name = "${var.prefix}-lb-security-group"
-  } 
+  }
 }
 
 

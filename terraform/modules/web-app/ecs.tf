@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "main" {
 
 data "template_file" "api_container_definition" {
   template = file("${path.module}/templates/ecs/container-definition.json.tpl")
-  
+
   vars = {
     app_image        = var.ecr_image_api
     db_host          = aws_db_instance.main.address
@@ -19,9 +19,9 @@ data "template_file" "api_container_definition" {
     log_group_name   = aws_cloudwatch_log_group.ecs_task_logs.name
     log_group_region = data.aws_region.current.name
     # allowed_hosts = aws_route53_record.app.fqdn
-     #TODO: REPLACE WITH ACTUAL HOST ^^
+    #TODO: REPLACE WITH ACTUAL HOST ^^
     allowed_hosts = aws_lb.api.dns_name
-   
+
     # s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
     # s3_storage_bucket_region = data.aws_region.current.name
 
@@ -61,12 +61,12 @@ resource "aws_ecs_service" "api" {
     security_groups = [aws_security_group.ecs_service.id]
   }
 
-#TODO:potential bug due to absence of proxy in cardeal-api
-  # load_balancer {
-  #     target_group_arn = aws_lb_target_group.api.arn
-  #     container_name   = "proxy"
-  #     container_port   = 8000
-  # }
+  #TODO:potential bug due to absence of proxy in cardeal-api
+  load_balancer {
+    target_group_arn = aws_lb_target_group.api.arn
+    container_name   = "api"
+    container_port   = 8000
+  }
 
 }
 

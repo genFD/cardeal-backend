@@ -84,7 +84,7 @@ COPY --chown=node:node --from=build /usr/src/app/package-lock.json .
 # RUN npm ci --only=production
 RUN npm ci --omit=dev
 COPY --chown=node:node --from=build /usr/src/app/node_modules/.prisma/client  ./node_modules/.prisma/client
-# EXPOSE ${PORT}
+EXPOSE 8000
 # CMD ["dumb-init", "node", "dist/src/main"]
 CMD [  "npm", "run", "start:migrate:prod" ]
 
