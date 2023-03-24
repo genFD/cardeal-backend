@@ -1,5 +1,4 @@
-[
-    {
+[{
 	"name": "api",
 	"image": "${app_image}",
 	"essential": true,
@@ -19,6 +18,14 @@
 		{
 			"name": "DB_PASS",
 			"value": "${db_pass}"
+		},
+		{
+			"name": "S3_STORAGE_BUCKET_NAME",
+			"value": "${s3_storage_bucket_name}"
+		},
+		{
+			"name": "S3_STORAGE_BUCKET_REGION",
+			"value": "${s3_storage_bucket_region}"
 		}
 	],
 	"logConfiguration": {
@@ -33,5 +40,4 @@
 		"containerPort": 8000,
 		"hostPort": 8000
 	}]
-}
-]
+}]

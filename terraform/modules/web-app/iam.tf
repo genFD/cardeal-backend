@@ -123,16 +123,18 @@ resource "aws_iam_role" "app_iam_role" {
     Name = "${var.prefix}-api-task"
   }
 }
+################################
+#S3
 
-# resource "aws_iam_policy" "ecs_s3_access" {
-#   name        = "${var.prefix}-AppS3AccessPolicy"
-#   path        = "/"
-#   description = "Allow access to the app S3 bucket"
+resource "aws_iam_policy" "ecs_s3_access" {
+  name        = "${var.prefix}-AppS3AccessPolicy"
+  path        = "/"
+  description = "Allow access to the app S3 bucket"
 
-#   policy = data.template_file.ecs_s3_write_policy.rendered
-# }
+  policy = data.template_file.ecs_s3_write_policy.rendered
+}
 
-# resource "aws_iam_role_policy_attachment" "ecs_s3_access" {
-#   role       = aws_iam_role.app_iam_role.name
-#   policy_arn = aws_iam_policy.ecs_s3_access.arn
-# }
+resource "aws_iam_role_policy_attachment" "ecs_s3_access" {
+  role       = aws_iam_role.app_iam_role.name
+  policy_arn = aws_iam_policy.ecs_s3_access.arn
+}
