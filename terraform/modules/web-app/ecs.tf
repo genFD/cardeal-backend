@@ -22,8 +22,8 @@ data "template_file" "api_container_definition" {
     #TODO: REPLACE WITH ACTUAL HOST ^^
     allowed_hosts = aws_lb.api.dns_name
 
-    # s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
-    # s3_storage_bucket_region = data.aws_region.current.name
+    s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
+    s3_storage_bucket_region = data.aws_region.current.name
 
   }
 }
@@ -70,13 +70,13 @@ resource "aws_ecs_service" "api" {
 
 }
 
-# data "template_file" "ecs_s3_write_policy" {
-#   template = file("templates/ecs/s3-write-policy.json")
+data "template_file" "ecs_s3_write_policy" {
+  template = file("${path.module}/templates/ecs/s3-write-policy.json.tpl")
 
-#   vars = {
-#     bucket_arn = aws_s3_bucket.app_public_files.arn
-#   }
-# }
+  vars = {
+    bucket_arn = aws_s3_bucket.app_public_files.arn
+  }
+}
 
 
 
