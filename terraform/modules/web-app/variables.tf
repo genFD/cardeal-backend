@@ -78,35 +78,6 @@ variable "instance_type" {
 #   type        = string
 # }
 
-# Route 53 Variables
-
-variable "create_dns_zone" {
-  description = "If true, create new route53 zone, if false read existing route53 zone"
-  type        = bool
-  default     = false
-}
-
-# variable "domain" {
-#   description = "Domain for website"
-#   type        = string
-# }
-###########
-variable "dns_zone_name" {
-  description = "Domain name"
-  default     = "<domain name>"
-}
-
-variable "subdomain" {
-  description = "Subdomain per environment"
-  type        = map(string)
-  default = {
-    production = "api"
-    staging    = "api.staging"
-    dev        = "api.dev"
-  }
-
-}
-
 # RDS Variables
 
 
@@ -151,4 +122,32 @@ variable "db_pass" {
 variable "ecr_image_api" {
   description = "ECR Image for API"
   default     = "302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo:latest"
+}
+
+### Route 53 Variables
+
+# variable "create_dns_zone" {
+#   description = "If true, create new route53 zone, if false read existing route53 zone"
+#   type        = bool
+#   default     = false
+# }
+
+# variable "domain" {
+#   description = "Domain for website"
+#   type        = string
+# }
+
+variable "dns_zone_name" {
+  description = "Domain name"
+  default     = "fsgig.com"
+}
+
+variable "subdomain" {
+  description = "Subdomain per environment"
+  type        = map(string)
+  default = {
+    production = "cardealapi"
+    dev        = "cardealapi.dev"
+  }
+
 }
