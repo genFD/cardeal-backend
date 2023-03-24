@@ -1,15 +1,19 @@
 #############################################
 # VARIABLES
 PROJECT_NAME=cardeal-api
+ACCOUNT_ID=302671405705
 TF_ACTION?=plan
-ZONE=us-central1-c
-USER=hk.dev
-VM_NAME=cardeal-test-vm
+REGION=us-east-1
+USER=ec2-user
+KEY_PAIR = ~/.ssh/aws_001
+VM_HOST=ec2-54-227-127-141.compute-1.amazonaws.com
 SSH_STRING=${USER}@${VM_NAME}-${ENV}
 GITHUB_SHA?=latest
 LOCAL_TAG=cardeal-test:${GITHUB_SHA}
-REMOTE_TAG=ecr_repo_url/${PROJECT_ID}/${LOCAL_TAG}
+# REMOTE_TAG=ecr_repo_url/${PROJECT_ID}/${LOCAL_TAG}
+REMOTE_TAG=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
 CONTAINER_NAME=cardeal-test-api
+IAM_USER=hermannproton
 #############################################
 # UTILS
 check-env:
@@ -62,11 +66,23 @@ terraform-action:check-env
 		terraform ${TF_ACTION} -var="db_pass=postgres"
 
 #############################################
+# AWS-VAULT
+list-profile:
+	@aws-vault list
+
+create-session:
+	@aws-vault exec ${IAM_USER} --duration=12h
+#############################################
+# AWS-DOCKER
+docker-auth:
+	aws ecr get-login-password  \
+        --region ${REGION} | docker login \
+        --username AWS \
+        --password-stdin ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+#############################################
 # SSH
 ssh:check-env
-	gcloud compute ssh ${SSH_STRING} \
-				--project=${PROJECT_ID} \
-				--zone=${ZONE}
+	@ssh -i ${KEY_PAIR} ${VM_HOST} -l ${USER}
 
 ssh-cmd:check-env
 	@gcloud compute ssh ${SSH_STRING} \
@@ -80,7 +96,7 @@ build:check-env
 		docker build -t ${LOCAL_TAG} .
 
 push:check-env
-		docker tag ${LOCAL_TAG} ${REMOTE_TAG}
+		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
 		docker push ${REMOTE_TAG}
 
 deploy:check-env
