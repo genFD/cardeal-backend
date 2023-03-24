@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "app_public_files" {
   bucket_prefix = "${var.prefix}-files"
   force_destroy = true
   tags = {
-    Name        = "${var.prefix}-public-bucket"
+    Name = "${var.prefix}-public-bucket"
   }
 }
 

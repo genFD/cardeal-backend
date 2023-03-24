@@ -10,5 +10,5 @@ output "ecr_uri" {
 }
 
 output "api_endpoint" {
-  value = aws_lb.api.dns_name
+  value = aws_route53_record.app.fqdn
 }
