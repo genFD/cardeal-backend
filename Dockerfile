@@ -10,6 +10,7 @@ ARG SHA=sha256:19eaf41f3b8c2ac2f609ac8103f9246a6a6d46716cdbe49103fdb116e55ff0cc
 #############################################
 # BASE IMAGE
 FROM node:18-alpine@${SHA} AS base
+# FROM node:18-alpine AS base
 # FROM node:NODE_VERSION-alpineALPINE_VERSION AS base
 RUN apk update \
   # 1. Required for Prisma Client to work in container

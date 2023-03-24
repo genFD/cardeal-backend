@@ -1,7 +1,7 @@
-/* Allow ECS task permission to 
- - retrieve images from repo 
- - create and put logs into the log stream
-*/
+# /* Allow ECS task permission to 
+#  - retrieve images from repo 
+#  - create and put logs into the log stream
+# */
 
 {
     "Version": "2012-10-17",

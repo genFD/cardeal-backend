@@ -150,5 +150,5 @@ variable "db_pass" {
 
 variable "ecr_image_api" {
   description = "ECR Image for API"
-  default     = "<APP ECR Image URL>:latest"
+  default     = "302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo:latest"
 }
