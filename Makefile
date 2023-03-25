@@ -27,6 +27,20 @@ endef
 
 
 #############################################
+# AWS-VAULT
+list-profile:
+	@aws-vault list
+
+create-session:
+	@aws-vault exec ${IAM_USER} --duration=12h
+#############################################
+# AWS-DOCKER
+docker-auth:
+	aws ecr get-login-password  \
+        --region ${REGION} | docker login \
+        --username AWS \
+        --password-stdin ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+#############################################
 # DOCKER-LOCAL
 run:
 	docker compose up -d
@@ -65,20 +79,7 @@ terraform-action:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION} -var="db_pass=postgres"
 
-#############################################
-# AWS-VAULT
-list-profile:
-	@aws-vault list
 
-create-session:
-	@aws-vault exec ${IAM_USER} --duration=12h
-#############################################
-# AWS-DOCKER
-docker-auth:
-	aws ecr get-login-password  \
-        --region ${REGION} | docker login \
-        --username AWS \
-        --password-stdin ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
 #############################################
 # SSH
 ssh:check-env
