@@ -1,4 +1,4 @@
-name: Deploy to development
+name: Deploy
 # Trigger jobs only when 
 # - Merge into main
 # - Merge into production
