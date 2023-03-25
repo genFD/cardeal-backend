@@ -1,4 +1,4 @@
-name: Continous deployment
+name: Test And Lint
 # Trigger jobs only when 
 # - PR is created 
 # - Merge into main
@@ -31,3 +31,5 @@ jobs:
 
       - name: Lint Check
         run: echo "RUNNING LINT /"
+  
+  
