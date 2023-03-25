@@ -13,7 +13,7 @@ on:
 jobs:
   
   test:
-    name: Run unit || e2e tests and lint code
+    name: Run unit ||| e2e tests and lint code
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
