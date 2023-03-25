@@ -1,5 +1,6 @@
-name: Deploy
+name: Continous deployment
 # Trigger jobs only when 
+# - PR is created 
 # - Merge into main
 # - Merge into production
 on:
@@ -7,8 +8,30 @@ on:
     branches:
       - main
       - production
-jobs:
+  pull_request:
 
+jobs:
+  
+  test:
+    name: Run unit - e2e tests and lint code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: echo "RUNNING TEST"
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Lint Check
+        run: echo "RUNNING LINT /"
+  
   deploy-development:
     name: Deploy to development
     runs-on: ubuntu-22.04
@@ -32,3 +55,5 @@ jobs:
         
       - name: Deploy to production
         run: echo "Deploy to prod code here /"
+  
+  
