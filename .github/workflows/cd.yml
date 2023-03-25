@@ -31,3 +31,29 @@ jobs:
 
       - name: Lint Check
         run: echo "RUNNING LINT /"
+  
+  deploy-development:
+    name: Deploy to development
+    runs-on: ubuntu-22.04
+    needs: [test, lint]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to development
+        run: echo "Deploy to dev code here /"
+
+  deploy-production:
+    name: Deploy to production
+    runs-on: ubuntu-22.04
+    needs: [test, lint]
+    if: github.ref == 'refs/heads/production'
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+        
+      - name: Deploy to production
+        run: echo "Deploy to prod code here /"
+  
+  
