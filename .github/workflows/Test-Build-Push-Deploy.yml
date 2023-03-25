@@ -1,0 +1,129 @@
+name: CI/CD
+# Trigger jobs only when 
+# - PR is created 
+# - Merge into main
+# - Merge into production
+on:
+  push:
+    branches:
+      - main
+      - production
+  pull_request:
+
+jobs:
+  
+  test-lint:
+    name: Run unit ||| e2e tests and lint code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: echo "RUNNING TEST"
+
+      - name: Lint Check
+        run: echo "RUNNING LINT"
+
+  build-docker-image:
+    name: Build and push docker image to ECR
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production'
+    # returns true if github.ref is 'main' or 'production'.
+    if: contains(fromJSON('['refs/heads/main', 'refs/heads/production']'), github.ref)
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1-node16
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+
+      # - name: Log into the Amazon ECR Public
+      #   id: login-ecr-public
+      #   uses: aws-actions/amazon-ecr-login@v1
+      #   with:
+      #     registry-type: public
+
+      - name: Build, tag, and push docker image to Amazon ECR Public
+        # env:
+        #   REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+        #   REGISTRY_ALIAS: e2b3j8w6
+        #   REPOSITORY: nestjs-api
+        #   IMAGE_TAG: nestjs-api
+        run: |
+           echo "BUILD IMAGE" 
+           echo "PUSH IMAGE"  
+#          make build
+#          make push
+  
+  deploy-development:
+    name: Deploy to development
+    runs-on: ubuntu-22.04
+    needs: [test, lint, build-docker-image]
+    if: github.ref == 'refs/heads/main'
+    # env:
+    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    # defaults:
+    #   run:
+    #     working-directory: 07-managing-multiple-environments/file-structure/staging
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+          terraform_wrapper: false
+
+      - name: Terraform Format
+        id: fmt
+        run: make terraform-format
+
+      # - name: Terraform Init
+      #   id: init
+      #   run: make terraform-init
+
+      - name: Deploy to development
+        run: echo "Deploy to dev code here /"
+
+  deploy-production:
+    name: Deploy to production
+    runs-on: ubuntu-22.04
+    needs: [test, lint, build-docker-image]
+    if: github.ref == 'refs/heads/production'
+    # env:
+    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    # defaults:
+    #   run:
+    #     working-directory: 07-managing-multiple-environments/file-structure/staging
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+          # terraform_wrapper: false
+
+      - name: Terraform Format
+        id: fmt
+        run: make terraform-format
+
+      # - name: Terraform Init
+      #   id: init
+      #   run: make terraform-init
+
+      - name: Deploy to production
+        run: echo "Deploy to prod code here /"
+  
+  
+  
+  

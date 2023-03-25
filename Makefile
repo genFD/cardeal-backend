@@ -93,14 +93,14 @@ ssh-cmd:check-env
 
 #############################################
 # DOCKER REMOTE
-build:check-env
+build:
 		docker build -t ${LOCAL_TAG} .
 
-push:check-env
+push:
 		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
 		docker push ${REMOTE_TAG}
 
-deploy:check-env
+deploy:
 	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
 	@echo "pulling new container image..."
 	${MAKE} ssh-cmd CMD='docker pull ${REMOTE_TAG}'
