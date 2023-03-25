@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production'
     # returns true if github.ref is 'main' or 'production'.
-    if: contains(fromJSON('['refs/heads/main', 'refs/heads/production']'), github.ref)
+    if: contains(fromJSON('["refs/heads/main", "refs/heads/production"]'), github.ref)
     steps:
       - name: Check out the repository
         uses: actions/checkout@v3
