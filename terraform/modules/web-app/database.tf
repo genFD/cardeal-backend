@@ -8,8 +8,8 @@
 ###################################################################
 
 resource "aws_db_instance" "main" {
-  identifier              = "${var.prefix}-db"
-  allocated_storage       = 20
+  identifier                   =    "${var.prefix}-db"
+  allocated_storage   = 20
   storage_type            = var.storage_type
   engine                  = var.engine
   engine_version          = var.engine_version

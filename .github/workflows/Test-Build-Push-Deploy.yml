@@ -84,7 +84,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: make terraform-format
+        run: terraform fmt
 
       # - name: Terraform Init
       #   id: init
