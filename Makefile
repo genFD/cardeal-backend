@@ -10,9 +10,7 @@ VM_HOST=ec2-54-227-127-141.compute-1.amazonaws.com
 SSH_STRING=${USER}@${VM_NAME}-${ENV}
 GITHUB_SHA?=latest
 LOCAL_TAG=ngnix-sample:${GITHUB_SHA}
-REMOTE_TAG_TEST?=remote
-# REMOTE_TAG=ecr_repo_url/${PROJECT_ID}/${LOCAL_TAG}
-REMOTE_TAG=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
+REMOTE_TAG?=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
 CONTAINER_NAME=cardeal-test-api
 IAM_USER=hermannproton
 #############################################
@@ -116,14 +114,6 @@ build-test:
 push:
 		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
 		docker push ${REMOTE_TAG}
-
-push-ci:
-		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
-		docker push ${REMOTE_TAG}
-
-push-ci-test:
-		docker tag ${LOCAL_TAG} ${REMOTE_TAG_TEST}:latest
-		docker push ${REMOTE_TAG_TEST}
 
 deploy:
 	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
