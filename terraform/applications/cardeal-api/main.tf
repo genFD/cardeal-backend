@@ -57,10 +57,10 @@ module "web_app" {
   path_public_key  = "~/.ssh/aws_001.pub"
   # create_dns_zone  = terraform.workspace == "production" ? true : false
   storage_type   = "gp2"
-  engine              = "postgres"
+  engine         = "postgres"
   engine_version = "12"
   instance_class = "db.t2.micro"
-  db_name    = "cardealapidbdev"
+  db_name        = "cardealapidbdev"
   db_user        = "postgres"
   db_pass        = var.db_pass
 }
