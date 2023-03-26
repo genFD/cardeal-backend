@@ -33,6 +33,9 @@ list-profile:
 
 create-session:
 	@aws-vault exec ${IAM_USER} --duration=12h
+
+clear-session:
+	@aws-vault clear ${IAM_USER}
 #############################################
 # AWS-DOCKER
 docker-auth:
@@ -64,8 +67,7 @@ terraform-validate:
 
 terraform-validate-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
-	terraform init -backend=false \
-	terraform validate \
+	terraform validate && \
 	find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -check {} \;
 
 terraform-switch-workspace:check-env
