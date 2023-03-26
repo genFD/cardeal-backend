@@ -56,7 +56,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
             make build-test 
-            make push-ci-test REMOTE_TAG_TEST=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+            make push-ci-test REMOTE_TAG_TEST=$REPOSITORY
 #           echo "BUILD IMAGE" 
 #           echo "PUSH IMAGE"  
   
