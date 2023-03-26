@@ -43,7 +43,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: us-east-1
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-to-assume: arn:aws:iam::302671405705:role/gh-actions-dev
 
       - name: Log into the Amazon ECR 
         id: login-ecr
