@@ -123,7 +123,7 @@ push-ci:
 
 push-ci-test:
 		docker tag ${LOCAL_TAG} ${REMOTE_TAG_TEST}:latest
-		docker push ${{secrets.DB_PASS }} ${REMOTE_TAG_TEST}
+		docker push ${REMOTE_TAG_TEST}
 
 deploy:
 	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
