@@ -12,7 +12,6 @@ GITHUB_SHA?=latest
 LOCAL_TAG=cardeal-test:${GITHUB_SHA}
 # REMOTE_TAG=ecr_repo_url/${PROJECT_ID}/${LOCAL_TAG}
 REMOTE_TAG=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
-302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
 CONTAINER_NAME=cardeal-test-api
 IAM_USER=hermannproton
 #############################################
@@ -116,7 +115,7 @@ push:
 
 push-ci:
 		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
-		docker push ${{secrets.ECR_REPO }}
+		docker push ${{secrets.DB_PASS }}
 
 deploy:
 	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
