@@ -36,22 +36,23 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1-node16
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
       # - name: Log into the Amazon ECR Public
       #   id: login-ecr-public
       #   uses: aws-actions/amazon-ecr-login@v1
       #   with:
       #     registry-type: public
+      #     registry-type: public
 
       - name: Build, tag, and push docker image to Amazon ECR Public
-        # env:
-        #   REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
         #   REGISTRY_ALIAS: e2b3j8w6
         #   REPOSITORY: nestjs-api
         #   IMAGE_TAG: nestjs-api
@@ -66,9 +67,9 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [test-lint, build-docker-image]
     if: github.ref == 'refs/heads/main'
-    # env:
-    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     # defaults:
     #   run:
     #     working-directory: 07-managing-multiple-environments/file-structure/staging
@@ -98,9 +99,9 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [test-lint, build-docker-image]
     if: github.ref == 'refs/heads/production'
-    # env:
-    #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     # defaults:
     #   run:
     #     working-directory: 07-managing-multiple-environments/file-structure/staging
