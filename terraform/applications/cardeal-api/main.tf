@@ -26,21 +26,21 @@ variable "db_pass" {
   type        = string
   sensitive   = true
 }
-output "db_host" {
-  value = module.web_app.db_host
-}
+# output "db_host" {
+#   value = module.web_app.db_host
+# }
 
-output "bastion_host" {
-  value = module.web_app.bastion_host
-}
+# output "bastion_host" {
+#   value = module.web_app.bastion_host
+# }
 
 output "ecr_uri" {
-  value = module.web_app.ecr_uri
+  value    =     module.web_app.ecr_uri
 }
 
-output "api_endpoint" {
-  value = module.web_app.api_endpoint
-}
+# output "api_endpoint" {
+#   value = module.web_app.api_endpoint
+# }
 
 module "web_app" {
   source = "../../modules/web-app"
@@ -56,9 +56,9 @@ module "web_app" {
   instance_type    = "t2.micro"
   path_public_key  = "~/.ssh/aws_001.pub"
   # create_dns_zone  = terraform.workspace == "production" ? true : false
-  storage_type      = "gp2"
+  storage_type   = "gp2"
   engine         = "postgres"
-  engine_version = "12"
+  engine_version     = "12"
   instance_class = "db.t2.micro"
   db_name        = "cardealapidbdev"
   db_user        = "postgres"

@@ -12,6 +12,7 @@ GITHUB_SHA?=latest
 LOCAL_TAG=cardeal-test:${GITHUB_SHA}
 # REMOTE_TAG=ecr_repo_url/${PROJECT_ID}/${LOCAL_TAG}
 REMOTE_TAG=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
+302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
 CONTAINER_NAME=cardeal-test-api
 IAM_USER=hermannproton
 #############################################
@@ -67,6 +68,7 @@ terraform-validate:
 
 terraform-validate-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
+	terraform init -backend=false && \
 	terraform validate && \
 	find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -check {} \;
 
@@ -86,6 +88,10 @@ terraform-init:check-env
 terraform-action:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION} -var="db_pass=postgres"
+
+terraform-action-ci:check-env
+	@cd terraform/applications/${PROJECT_NAME} && \
+		terraform ${TF_ACTION} -var db_pass=${{secrets.DB_PASS }} -auto-approve
 
 
 #############################################
@@ -107,6 +113,10 @@ build:
 push:
 		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
 		docker push ${REMOTE_TAG}
+
+push-ci:
+		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
+		docker push ${{secrets.ECR_REPO }}
 
 deploy:
 	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
