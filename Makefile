@@ -86,7 +86,6 @@ terraform-action-ci:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION} -var db_pass=${{secrets.DB_PASS }} -auto-approve
 
-
 #############################################
 ## SSH
 ssh:check-env
