@@ -82,16 +82,17 @@ jobs:
 
       - name: Terraform validate
         id: validate
-        run: make terraform-validate-CI
+        run: make terraform-validate-ci
 
       - name: Terraform plan
         id: plan
-        run: make terraform-action TF_ACTION=plan ENV=dev
+        run: make terraform-action-ci TF_ACTION=plan ENV=dev
 
-      # - name: Deploy to development
-      #   run: make terraform-action TF_ACTION=apply ENV=dev
       - name: Deploy to development
-        run: echo 'Deploy to development'
+        id: plan
+        run: make terraform-action-ci TF_ACTION=apply ENV=dev
+      # - name: Deploy to development
+      #   run: echo 'Deploy to development'
 
   deploy-production:
     name: Deploy to production

@@ -1,21 +1,27 @@
 ###################################################################
 # Description : 
-# Allow Permission EC2 instance/AWS Container Registry
+# Allow Permission EC2  - ECR 
 #            --------------------------------                     #
-# Resources             Name                         Number       #
-# ---------           | -------                    | ------       #
-# IAM Role            |  bastion_role              |   1          #
-# Policy Attachment   |  bastion_attach_policy     |   1          #
-# Instance Profile    |  bastion_profile           |   1          #
+# Resources             Name                           Number     #
+# ---------           | -------                      | ------     #
+# IAM Role            |  bastion_role                |   1        #
+# Policy Attachment   |  bastion_attach_policy       |   1        #
+# Instance Profile    |  bastion_profile             |   1        #
 ###################################################################
-# Description : 
-# Allow Permission EC2 instance/AWS Container Registry
+# Description : Allow Permission ECS  - ECR
 #            --------------------------------                     #
-# Policy Attachment   |  bastion_attach_policy     |   1          #
-# Instance Profile    |  bastion_profile           |   1          #
+#
+# IAM Policy          | task_execution_role_policy   |    1
+#    -                | ecs_s3_access                |    -
+# IAM Role            | task_execution_role          |    1
+#   -                 | app_iam_role                 |    -
+# Policy Attachment   | task_execution_role          |    1
+#   -                 | ecs_s3_access                |    -
+# Instance Profile    | bastion_profile              |    1       #
 ###################################################################
 
-#EC2 Instance
+#################################
+### EC2 INSTANCE
 
 # resource "aws_iam_role" "bastion_role" {
 #   name               = "${var.prefix}-bastion-role"
@@ -50,7 +56,9 @@
 #   role = aws_iam_role.bastion_role.name
 # }
 
-# # #ECS
+# #################################
+# ### ECS
+
 # resource "aws_iam_policy" "task_execution_role_policy" {
 #   name        = "${var.prefix}-task-exec-role-policy"
 #   path        = "/"
@@ -123,8 +131,6 @@
 #     Name = "${var.prefix}-api-task"
 #   }
 # }
-# ################################
-# #S3
 
 # resource "aws_iam_policy" "ecs_s3_access" {
 #   name        = "${var.prefix}-AppS3AccessPolicy"
