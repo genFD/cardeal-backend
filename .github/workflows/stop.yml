@@ -1,4 +1,4 @@
-name: stop workflow
+# name: stop workflow
 # Trigger jobs only when 
 # - PR is created 
 # - Merge into main
