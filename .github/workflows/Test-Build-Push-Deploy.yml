@@ -86,11 +86,11 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: make terraform-action-ci TF_ACTION=plan ENV=dev
+        run: make terraform-plan ENV=dev
 
       - name: Deploy to development
         id: apply
-        run: make terraform-action-ci TF_ACTION=apply ENV=dev
+        run: make terraform-apply ENV=dev
       # - name: Deploy to development
       #   run: echo 'Deploy to development'
 

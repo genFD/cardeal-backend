@@ -82,9 +82,13 @@ terraform-action:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION} -var="db_pass=postgres"
 
-terraform-action-ci:check-env
+terraform-plan:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform ${TF_ACTION} -var db_pass=${{secrets.DB_PASS }} -auto-approve
+		terraform plan -var db_pass=${{secrets.DB_PASS }}
+
+terraform-apply:check-env
+	@cd terraform/applications/${PROJECT_NAME} && \
+		terraform apply -var db_pass=${{secrets.DB_PASS }} -auto-approve
 
 #############################################
 ## SSH
