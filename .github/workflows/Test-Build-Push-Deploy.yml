@@ -53,7 +53,7 @@ jobs:
           REPOSITORY: ${{ secrets.ECR_REPO }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-             echo "Creating//"
+             echo "Creating///"
 #            make build-test 
 #            make push REMOTE_TAG=$REPOSITORY
   
