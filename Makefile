@@ -59,7 +59,7 @@ terraform-format:
 terraform-validate:
 	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
 
-terraform-validate-CI:
+terraform-validate-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
 	terraform init  && \
 	terraform validate && \
@@ -85,7 +85,6 @@ terraform-action:check-env
 terraform-action-ci:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform ${TF_ACTION} -var db_pass=${{secrets.DB_PASS }} -auto-approve
-
 
 #############################################
 ## SSH

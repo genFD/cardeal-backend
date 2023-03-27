@@ -1,6 +1,22 @@
-# resource "aws_route53_zone" "primary" {
-#   name = var.dns_zone_name
-# }
+# ###############################################################
+#                     # DNS #                                   #
+#            --------------------------------                   #
+# Resources                         Name             Number     #
+# ---------                      | -------        |  ------     #
+# aws_route53_zone               |  bastion       |   1         #
+# aws_acm_certificate            |  cert          |     
+# aws_route53_record             |cert_validation |
+# aws_acm_certificate_validation |cert            |
+# ###############################################################
+# Data                  Name             Number                 #
+# ---------           | -------        | ------                 #
+# Aws ami             |  amazon_linux  |   1                    #
+#                     |                |                        #
+##################################################################
+
+resource "aws_route53_zone" "primary" {
+  name = var.dns_zone_name
+}
 
 # data "aws_route53_zone" "zone" {
 #   name = "${var.dns_zone_name}."

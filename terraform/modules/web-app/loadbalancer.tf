@@ -3,13 +3,12 @@
 #                --------------------------------               #
 # Resources             Name           Number                   #
 # ---------           | -------      | ------                   #
-# Listener            |  http        |   1                      #
+# Load Balancer       |  lb          |   1                      #
 # Target group (TG)   |  instances   |   1                      #
+# Listener            |  http        |   1                      #
+#    -                |  https       |   1                      #
 # TG Attachment       |   -          |   1                      #
 # Listener rule       |   -          |   1                      #
-# Security group      |  alb         |   1                      #
-# Security group rule |  alb rule    |   1                      #
-# Load Balancer       |  lb          |   1                      #
 # ###############################################################
 
 # resource "aws_lb" "api" {
@@ -35,17 +34,17 @@
 #   target_type = "ip"
 #   port        = 8000
 
-  #TODO: TEST BEFORE DEPLOY IN PROD
-  #   health_check {
-  #     path                = "/"
-  #     protocol            = "HTTP"
-  #     matcher             = "200"
-  #     interval            = 15
-  #     timeout             = 3
-  #     healthy_threshold   = 2
-  #     unhealthy_threshold = 2
-  #   }
-  #
+#   #TODO: TEST BEFORE DEPLOY IN PROD
+#     # health_check {
+#     #   path                = "/"
+#     #   protocol            = "HTTP"
+#     #   matcher             = "200"
+#     #   interval            = 15
+#     #   timeout             = 3
+#     #   healthy_threshold   = 2
+#     #   unhealthy_threshold = 2
+#     # }
+  
 #   health_check {
 #     path = "/"
 #   }

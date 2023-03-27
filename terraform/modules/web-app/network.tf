@@ -14,18 +14,18 @@
 ###################################################################
 #                 # Outbound internet access #                    #
 #                -------------------------------                  #
-#                          |                      |               #
 #  Subnet                  |[private_a,private_b] |   2           #
 #  Route table             |                      |   2           #
 #  Route table association |                      |   2           #
 #  Route                   |                      |   2           #
 ###################################################################
-#                 # Security groups #                             #
-#                -------------------------------                  #
-#                        |                         |     #
-# Security groups        |  bastion_network_access |   1  
-#    -                   |  rds                   |   1  
-# Subnet group           |  main                 |  1
+#                 # Security groups #                            #
+#                -----------------------                         #
+# Security groups        |  bastion_network_access |   1         #
+#    -                   |  ecs_service            |   1         #
+#    -                   |  rds                    |   1         #
+#    -                   |  lb                     |   1         #
+# Subnet group           |  main                   |   1         #
 ###################################################################
 
 # resource "aws_vpc" "main" {
@@ -47,7 +47,7 @@
 # }
 
 #############################################################
-### PUBLIC A ####
+### SUBNET - PUBLIC A ####
 
 # resource "aws_subnet" "public_a" {
 #   cidr_block              = "10.1.1.0/24"
@@ -98,7 +98,7 @@
 # }
 
 #############################################################
-### PUBLIC B ####
+## SUBNET - PUBLIC B ##
 
 # resource "aws_subnet" "public_b" {
 #   cidr_block              = "10.1.2.0/24"
@@ -149,7 +149,7 @@
 
 
 #############################################################
-#### PRIVATE A ####
+## SUBNET - PRIVATE A ##
 
 # resource "aws_subnet" "private_a" {
 #   cidr_block        = "10.1.10.0/24"
@@ -181,7 +181,7 @@
 # }
 
 #############################################################
-#### PRIVATE B ####
+## SUBNET - PRIVATE B ##
 
 # resource "aws_subnet" "private_b" {
 #   cidr_block        = "10.1.11.0/24"
@@ -212,39 +212,38 @@
 #   destination_cidr_block = "0.0.0.0/0"
 # }
 
-############
-#Security Groups
+#############################################################
+##### SECURITY GROUPS ####
 
-##
-#bastion
+#### - BASTION - ####
 
 # resource "aws_security_group" "bastion_network_access" {
 #   name        = "${var.prefix}-bastion-network-access"
 #   description = "security group that allows ssh and inbound and outbound traffic"
 #   vpc_id      = aws_vpc.main.id
 
-  #SSH
-  # ingress {
-  #   from_port   = 22
-  #   to_port     = 22
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-  #HTTPS
-  # egress {
-  #   from_port   = 443
-  #   to_port     = 443
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-  #HTTP
-  # egress {
-  #   from_port   = 80
-  #   to_port     = 80
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-  #POSTGRES
+#   #SSH
+#   ingress {
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   #HTTPS
+#   egress {
+#     from_port   = 443
+#     to_port     = 443
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   #HTTP
+#   egress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   #POSTGRES
 #   egress {
 #     from_port   = 5432
 #     to_port     = 5432
@@ -256,7 +255,11 @@
 #     Name = "${var.prefix}-bastion-network-access"
 #   }
 # }
-##ecs
+
+
+
+#### - ECS - ####
+
 # resource "aws_security_group" "ecs_service" {
 #   description = "Access for the ECS service"
 #   name        = "${var.prefix}-ecs-service"
@@ -293,7 +296,8 @@
 #   }
 # }
 
-###Load balancer
+#### - LOAD BALANCER - ####
+
 # resource "aws_security_group" "lb" {
 #   description = "Allow access to Application Load Balancer"
 #   name        = "${var.prefix}-lb"
@@ -327,20 +331,7 @@
 # }
 
 
-########
-#db
-# resource "aws_db_subnet_group" "main" {
-#   name = "${var.prefix}-main"
-#   subnet_ids = [
-#     aws_subnet.private_a.id,
-#     aws_subnet.private_b.id
-#   ]
-
-#   tags = {
-#     Name = "${var.prefix}-db_subnet_group"
-#   }
-# }
-
+#### - DATABASE - ####
 # resource "aws_security_group" "rds" {
 #   description = "Allow access to the RDS database instance."
 #   name        = "${var.prefix}-rds-inbound-access"
@@ -358,4 +349,21 @@
 #     Name = "${var.prefix}-security-group-RDS"
 #   }
 # }
+
+#############################################################
+##### SUBNET GROUP ####
+
+# resource "aws_db_subnet_group" "main" {
+#   name = "${var.prefix}-main"
+#   subnet_ids = [
+#     aws_subnet.private_a.id,
+#     aws_subnet.private_b.id
+#   ]
+
+#   tags = {
+#     Name = "${var.prefix}-db_subnet_group"
+#   }
+# }
+
+
 

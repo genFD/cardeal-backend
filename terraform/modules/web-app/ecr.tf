@@ -1,3 +1,12 @@
+###################################################################
+#            # Container Repository # #                           #
+#            --------------------------------                     #
+# Resources             Name             Number                   #
+# ---------           | -------        | ------                   #
+# ECR Repository      |  main_repo     |   1                      #
+#                     |                |                          #
+###################################################################
+
 resource "aws_ecr_repository" "main_repo" {
   name = "${var.prefix}-repo"
   image_scanning_configuration {
