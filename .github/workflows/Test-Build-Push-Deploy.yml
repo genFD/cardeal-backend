@@ -94,14 +94,14 @@ jobs:
         run: make terraform-plan ENV=dev
         # continue-on-error: true
 
-      - uses: actions/github-script@0.9.0
+      - uses: actions/github-script@v6
 #        if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            const output = `#### Terraform validation 🖌\`${{ steps.validate.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
