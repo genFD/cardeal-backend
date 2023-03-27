@@ -91,9 +91,9 @@ jobs:
 
       - name: Deploy to development
         id: apply
-        run: make terraform-apply ENV=dev
+        # run: make terraform-apply ENV=dev
       # - name: Deploy to development
-      #   run: echo 'Deploy to development'
+        run: echo 'Deploy to development'
 
   deploy-production:
     name: Deploy to production
