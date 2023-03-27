@@ -90,6 +90,7 @@ terraform-action:check-env
 terraform-plan:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform plan -var db_pass=${{secrets.DB_PASS }}
+		
 
 terraform-apply:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
