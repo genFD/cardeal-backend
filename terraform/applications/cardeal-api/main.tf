@@ -58,7 +58,7 @@ module "web_app" {
   # create_dns_zone  = terraform.workspace == "production" ? true : false
   storage_type   = "gp2"
   engine         = "postgres"
-  engine_version     = "12"
+  engine_version = "12"
   instance_class = "db.t2.micro"
   db_name        = "cardealapidbdev"
   db_user        = "postgres"
