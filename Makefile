@@ -59,13 +59,12 @@ terraform-format:
 terraform-validate:
 	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
 
-# terraform-init-ci:
-# 	@cd terraform/applications/${PROJECT_NAME} && \
-# 		terraform init \
+terraform-init-ci:
+	@cd terraform/applications/${PROJECT_NAME} && \
+		terraform init \
 
 terraform-validate-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
-	terraform init
 	terraform workspace select ${ENV} && \
 	terraform init  && \
 	terraform validate && \
