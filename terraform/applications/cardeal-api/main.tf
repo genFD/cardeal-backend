@@ -54,7 +54,7 @@ module "web_app" {
   # domain           = "devopsdeployed.com"
   environment_name = local.environment_name
   instance_type    = "t2.micro"
-  path_public_key  = "~/.ssh/aws_001.pub"
+  path_public_key  = "./pub_key/aws_001.pub"
   # create_dns_zone  = terraform.workspace == "production" ? true : false
   storage_type   = "gp2"
   engine         = "postgres"
