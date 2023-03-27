@@ -1,16 +1,11 @@
-###################################################################
-#             # Cluster # #                           
-#            --------------------------------                    #
-# Resources             Name             Number                  #
-# ---------            | -------        | ------                 #
-# ECS Cluster          |  main_repo     |   1                    #
-# ECS Service          |  main_repo     |   1      #
-# ECS Task Definition  |  main_repo     |   1                      # Cloudwatch Log group | ecs_task_logs  |
-#                      |                |                         
-###################################################################
+# resource "aws_ecs_cluster" "main" {
+#   name = "${var.prefix}-cluster"
 
+#   tags = {
+#     Name = "${var.prefix}-cluster"
+#   }
+# }
 
-####
 
 # data "template_file" "api_container_definition" {
 #   template = file("${path.module}/templates/ecs/container-definition.json.tpl")
@@ -23,9 +18,9 @@
 #     db_pass          = aws_db_instance.main.password
 #     log_group_name   = aws_cloudwatch_log_group.ecs_task_logs.name
 #     log_group_region = data.aws_region.current.name
-#     # allowed_hosts    = aws_route53_record.app.fqdn
+#     allowed_hosts    = aws_route53_record.app.fqdn
 #     #TODO: REPLACE WITH ACTUAL HOST ^^
-#     allowed_hosts = aws_lb.api.dns_name
+#     # allowed_hosts = aws_lb.api.dns_name
 
 #     s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
 #     s3_storage_bucket_region = data.aws_region.current.name
@@ -33,21 +28,22 @@
 #   }
 # }
 
-# data "template_file" "ecs_s3_write_policy" {
-#   template = file("${path.module}/templates/ecs/s3-write-policy.json.tpl")
-
-#   vars = {
-#     bucket_arn = aws_s3_bucket.app_public_files.arn
-#   }
-# }
-
-# resource "aws_ecs_cluster" "main" {
-#   name = "${var.prefix}-cluster"
+# resource "aws_ecs_task_definition" "api" {
+#   family                   = "${var.prefix}-api"
+#   container_definitions    = data.template_file.api_container_definition.rendered
+#   requires_compatibilities = ["FARGATE"]
+#   network_mode             = "awsvpc"
+#   cpu                      = 256
+#   memory                   = 512
+#   execution_role_arn       = aws_iam_role.task_execution_role.arn
+#   task_role_arn            = aws_iam_role.app_iam_role.arn
+#   # depends_on = [aws_lb_listener.api_https]
 
 #   tags = {
-#     Name = "${var.prefix}-cluster"
+#     Name = "${var.prefix}-api"
 #   }
 # }
+
 
 # resource "aws_ecs_service" "api" {
 #   name             = "${var.prefix}-api"
@@ -71,27 +67,20 @@
 #     container_name   = "api"
 #     container_port   = 8000
 #   }
-#   # depends_on = [
-#   #   aws_lb_listener.api_https
-#   # ]
+#   depends_on = [
+#     aws_lb_listener.api_https
+#   ]
 
 # }
 
-# resource "aws_ecs_task_definition" "api" {
-#   family                   = "${var.prefix}-api"
-#   container_definitions    = data.template_file.api_container_definition.rendered
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu                      = 256
-#   memory                   = 512
-#   execution_role_arn       = aws_iam_role.task_execution_role.arn
-#   task_role_arn            = aws_iam_role.app_iam_role.arn
-#   # depends_on = [aws_lb_listener.api_https]
+# data "template_file" "ecs_s3_write_policy" {
+#   template = file("${path.module}/templates/ecs/s3-write-policy.json.tpl")
 
-#   tags = {
-#     Name = "${var.prefix}-api"
+#   vars = {
+#     bucket_arn = aws_s3_bucket.app_public_files.arn
 #   }
 # }
+
 
 
 # resource "aws_cloudwatch_log_group" "ecs_task_logs" {
