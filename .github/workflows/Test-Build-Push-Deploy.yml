@@ -92,10 +92,10 @@ jobs:
       - name: Terraform plan
         id: plan
         run: make terraform-plan ENV=dev
-        continue-on-error: true
+        # continue-on-error: true
 
       - uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
+#        if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:

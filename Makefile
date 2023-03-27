@@ -63,7 +63,7 @@ terraform-init-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform init \
 
-terraform-validate-ci:
+terraform-validate-ci:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 	terraform workspace select ${ENV} && \
 	terraform init  && \
