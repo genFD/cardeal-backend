@@ -82,7 +82,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform init
-        id: validate
+        id: init-ci
         run: make terraform-init-ci
 
       - name: Terraform validate
