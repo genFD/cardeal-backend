@@ -7,9 +7,8 @@ REGION=us-east-1
 USER=ec2-user
 KEY_PAIR = ~/.ssh/aws_001
 VM_HOST=ec2-54-227-127-141.compute-1.amazonaws.com
-SSH_STRING=${USER}@${VM_NAME}-${ENV}
 GITHUB_SHA?=latest
-LOCAL_TAG=ngnix-sample:${GITHUB_SHA}
+LOCAL_TAG=${PROJECT_NAME}:${GITHUB_SHA}
 REMOTE_TAG?=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
 CONTAINER_NAME=cardeal-test-api
 IAM_USER=hermannproton
@@ -19,10 +18,6 @@ check-env:
 ifndef ENV
 	$(error Please set ENV=[dev|prod])
 endif 
-
-define get-secret
-$(shell gcloud secrets versions access latest --secret=$(1) --project=$(PROJECT_ID))
-endef
 
 
 #############################################
@@ -64,9 +59,9 @@ terraform-format:
 terraform-validate:
 	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
 
-terraform-validate-ci:
+terraform-validate-CI:
 	@cd terraform/applications/${PROJECT_NAME} && \
-	terraform init -backend=false && \
+	terraform init  && \
 	terraform validate && \
 	find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -check {} \;
 
@@ -93,18 +88,12 @@ terraform-action-ci:check-env
 
 
 #############################################
-# SSH
+## SSH
 ssh:check-env
 	@ssh -i ${KEY_PAIR} ${VM_HOST} -l ${USER}
 
-ssh-cmd:check-env
-	@gcloud compute ssh ${SSH_STRING} \
-				--project=${PROJECT_ID} \
-				--zone=${ZONE} \
-				--command='${CMD}'
-
 #############################################
-# DOCKER REMOTE
+## DOCKER REMOTE
 build:
 		docker build -t ${LOCAL_TAG} .
 
