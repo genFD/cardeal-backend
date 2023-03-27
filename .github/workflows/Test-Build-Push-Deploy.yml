@@ -23,7 +23,7 @@ jobs:
         run: echo "RUNNING TEST"
 
       - name: Lint Check
-        run: echo "RUNNING LINT //"
+        run: echo "RUNNING LINT /"
 
   build-docker-image:
     name: Build and push docker image to ECR
