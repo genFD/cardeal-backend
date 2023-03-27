@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform validate
         id: validate
-        run: make terraform-validate-ci
+        run: make terraform-validate-ci ENV=dev
 
       - name: Terraform plan
         id: plan
