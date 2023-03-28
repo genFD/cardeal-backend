@@ -11,21 +11,21 @@
 # Listener rule       |   -          |   1                      #
 # ###############################################################
 
-# resource "aws_lb" "api" {
-#   name               = "${var.prefix}-main"
-#   load_balancer_type = "application"
-#   subnets = [
-#     aws_subnet.public_a.id,
-#     aws_subnet.public_b.id
-#   ]
+resource "aws_lb" "api" {
+  name               = "${var.prefix}-main"
+  load_balancer_type = "application"
+  subnets = [
+    aws_subnet.public_a.id,
+    aws_subnet.public_b.id
+  ]
 
-#   security_groups = [aws_security_group.lb.id]
+  security_groups = [aws_security_group.lb.id]
 
-#   tags = {
-#     Name = "${var.prefix}-main-load-balancer"
-#   }
+  tags = {
+    Name = "${var.prefix}-main-load-balancer"
+  }
 
-# }
+}
 
 # resource "aws_lb_target_group" "api" {
 #   name        = "${var.prefix}-api"

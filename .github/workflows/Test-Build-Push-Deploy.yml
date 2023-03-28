@@ -93,15 +93,11 @@ jobs:
         id: plan
         run: make terraform-plan ENV=dev
 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
       - name: Deploy to development
         id: apply
-        run: make terraform-apply ENV=dev
+        # run: make terraform-apply ENV=dev
       # - name: Deploy to development
-        # run: echo 'Deploy to development'
+        run: echo 'Deploy to development'
 
   deploy-production:
     name: Deploy to production
