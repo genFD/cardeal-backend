@@ -16,17 +16,16 @@
 #   template = file("${path.module}/templates/ecs/container-definition.json.tpl")
 
 #   vars = {
-#     app_image        = var.ecr_image_api
+#     app_image        = var.ecr_uri
+#     #to delete
+#     # app_image_test   = var.ecr_uri_test
 #     db_host          = aws_db_instance.main.address
 #     db_name          = aws_db_instance.main.db_name
 #     db_user          = aws_db_instance.main.username
 #     db_pass          = aws_db_instance.main.password
 #     log_group_name   = aws_cloudwatch_log_group.ecs_task_logs.name
 #     log_group_region = data.aws_region.current.name
-#     # allowed_hosts    = aws_route53_record.app.fqdn
-#     #TODO: REPLACE WITH ACTUAL HOST ^^
-#     allowed_hosts = aws_lb.api.dns_name
-
+#     allowed_hosts    = aws_route53_record.app.fqdn
 #     s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
 #     s3_storage_bucket_region = data.aws_region.current.name
 
@@ -49,6 +48,22 @@
 #   }
 # }
 
+# resource "aws_ecs_task_definition" "api" {
+#   family                   = "${var.prefix}-api"
+#   container_definitions    = data.template_file.api_container_definition.rendered
+#   requires_compatibilities = ["FARGATE"]
+#   network_mode             = "awsvpc"
+#   cpu                      = 256
+#   memory                   = 512
+#   execution_role_arn       = aws_iam_role.task_execution_role.arn
+#   task_role_arn            = aws_iam_role.app_iam_role.arn
+#   depends_on = [aws_lb_listener.api_https]
+
+#   tags = {
+#     Name = "${var.prefix}-api-task-def"
+#   }
+# }
+
 # resource "aws_ecs_service" "api" {
 #   name             = "${var.prefix}-api"
 #   cluster          = aws_ecs_cluster.main.name
@@ -65,34 +80,23 @@
 #     security_groups = [aws_security_group.ecs_service.id]
 #   }
 
-#   #TODO:potential bug due to absence of proxy in cardeal-api
+
 #   load_balancer {
 #     target_group_arn = aws_lb_target_group.api.arn
 #     container_name   = "api"
 #     container_port   = 8000
 #   }
-#   # depends_on = [
-#   #   aws_lb_listener.api_https
-#   # ]
+  #TODELETE
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.api_test.arn
+  #   container_name   = "test"
+  #   container_port   = 3000
+  # }
+  # depends_on = [
+  #   aws_lb_listener.api_https
+  # ]
 
 # }
-
-# resource "aws_ecs_task_definition" "api" {
-#   family                   = "${var.prefix}-api"
-#   container_definitions    = data.template_file.api_container_definition.rendered
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu                      = 256
-#   memory                   = 512
-#   execution_role_arn       = aws_iam_role.task_execution_role.arn
-#   task_role_arn            = aws_iam_role.app_iam_role.arn
-#   # depends_on = [aws_lb_listener.api_https]
-
-#   tags = {
-#     Name = "${var.prefix}-api"
-#   }
-# }
-
 
 # resource "aws_cloudwatch_log_group" "ecs_task_logs" {
 #   name = "${var.prefix}-api"

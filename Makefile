@@ -1,6 +1,6 @@
 #############################################
 # VARIABLES
-PROJECT_NAME=cardeal-api
+PROJECT_NAME=api
 ACCOUNT_ID=302671405705
 TF_ACTION?=plan
 REGION=us-east-1
@@ -9,8 +9,7 @@ KEY_PAIR = ~/.ssh/aws_001
 VM_HOST=ec2-54-227-127-141.compute-1.amazonaws.com
 GITHUB_SHA?=latest
 LOCAL_TAG=${PROJECT_NAME}:${GITHUB_SHA}
-REMOTE_TAG?=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo
-CONTAINER_NAME=cardeal-test-api
+REMOTE_TAG?=302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-backend-repo
 IAM_USER=hermannproton
 #############################################
 # UTILS
@@ -49,48 +48,51 @@ rebuild:
 #############################################
 # TERRAFORM
 
-terraform-check-workspace:
-	@cd terraform/applications/${PROJECT_NAME} && \
+######## LOCAL ########
+tf-create-workspace:check-env
+	@cd terraform/applications/bootstrap && \
+		terraform workspace new ${ENV}
+
+tf-check-workspace:
+	@cd terraform/applications/bootstrap && \
 		terraform workspace list
 
-terraform-format: 
+tf-switch-workspace:check-env
+	@cd terraform/applications/bootstrap && \
+		terraform workspace select ${ENV}
+
+tf-format: 
 	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -write {} \;
 
-terraform-validate:
-	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt {} \;
+tf-validate:
+	@find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform validate {} \;
+
+tf-init:check-env
+	@cd terraform/applications/bootstrap && \
+		terraform workspace select ${ENV} && \
+		terraform init \
+
+tf-action:check-env
+	@cd terraform/applications/bootstrap && \
+	terraform workspace select ${ENV} && \
+	terraform ${TF_ACTION} -var="db_pass=postgres"
+
+
+######## CI/CD ########
 
 terraform-init-ci:
 	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform init \
+	terraform init \
 
 terraform-validate-ci:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 	terraform workspace select ${ENV} && \
 	terraform init  && \
-	terraform validate && \
-	find . -type f -name "*.tf" -not -path '*/.terraform/*' -exec terraform fmt -check {} \;
-
-terraform-switch-workspace:check-env
-	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform workspace select ${ENV}
-
-terraform-create-workspace:check-env
-	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform workspace new ${ENV}
-
-terraform-init:check-env
-	cd terraform/applications/${PROJECT_NAME} && \
-		terraform workspace select ${ENV} && \
-		terraform init \
-	
-terraform-action:check-env
-	@cd terraform/applications/${PROJECT_NAME} && \
-		terraform ${TF_ACTION} -var="db_pass=postgres"
+	terraform validate  \
 
 terraform-plan:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
 		terraform plan -var db_pass=${{secrets.DB_PASS }}
-		
 
 terraform-apply:check-env
 	@cd terraform/applications/${PROJECT_NAME} && \
@@ -106,25 +108,8 @@ ssh:check-env
 build:
 		docker build -t ${LOCAL_TAG} .
 
-build-test:
-		docker build -t ${LOCAL_TAG} ./dockerfile-sample
-
 push:
-		docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
-		docker push ${REMOTE_TAG}
+	 docker tag ${LOCAL_TAG} ${REMOTE_TAG}:latest
+		docker push  ${REMOTE_TAG}
 
-deploy:
-	${MAKE} ssh-cmd CMD='docker-credential-gcr configure-docker'
-	@echo "pulling new container image..."
-	${MAKE} ssh-cmd CMD='docker pull ${REMOTE_TAG}'
-	@echo "removing old container..."
-	-${MAKE} ssh-cmd CMD='docker container stop ${CONTAINER_NAME}'
-	-${MAKE} ssh-cmd CMD='docker container rm ${CONTAINER_NAME}'
-	@echo "Starting new container..."
-	@${MAKE} ssh-cmd CMD='\
-				docker run -d --name=${CONTAINER_NAME} \
-						--restart=unless-stopped \
-						-p 80:3000 \
-						-e PORT=3000  \
-						${REMOTE_TAG} \
-	'
+
