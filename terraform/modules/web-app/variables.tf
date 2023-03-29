@@ -62,7 +62,7 @@ variable "path_public_key" {
 variable "ami" {
   description = "Amazon machine image to use for ec2 instance"
   type        = string
-  default     = "ami-011899242bb902164" # Ubuntu 20.04 LTS // us-east-1
+  default     = "ami-011899242bb902164" 
 }
 
 variable "instance_type" {
@@ -112,24 +112,28 @@ variable "db_pass" {
 
 # ECR Variables
 
-variable "ecr_image_api" {
+variable "ecr_uri" {
   description = "ECR Image for API"
-  default     = "302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-cardeal-repo:latest"
+  default     = "302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-backend-repo"
+}
+#to delete
+variable "ecr_uri_test" {
+  description = "ECR Image for API"
+  default     = "302671405705.dkr.ecr.us-east-1.amazonaws.com/dev-backend-repo-test"
 }
 
 ### Route 53 Variables
 
-variable "dns_zone_name" {
+variable "domain" {
   description = "Domain name"
-  default     = "fsgig.com"
 }
 
 variable "subdomain" {
   description = "Subdomain per environment"
   type        = map(string)
   default = {
-    production = "cardealapi"
-    dev        = "cardealapi.dev"
+    production = "api"
+    dev        = "api.dev"
   }
 
 }

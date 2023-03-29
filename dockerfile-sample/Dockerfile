@@ -1,9 +1,16 @@
-FROM nginx:latest
+FROM node:6-alpine
 
+EXPOSE 3000
 
-WORKDIR /usr/share/nginx/html
+RUN apk add --no-cache tini
 
+WORKDIR /usr/src/app
 
-COPY index.html index.html
+COPY package.json package.json
 
+RUN npm install && npm cache clean --force
+
+COPY . .
+
+CMD [ "/sbin/tini", "--", "node", "./bin/www" ]
 

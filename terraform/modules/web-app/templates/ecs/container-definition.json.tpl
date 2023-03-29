@@ -1,4 +1,5 @@
-[{
+[
+	{
 	"name": "api",
 	"image": "${app_image}",
 	"essential": true,
@@ -40,4 +41,5 @@
 		"containerPort": 8000,
 		"hostPort": 8000
 	}]
-}]
+}
+]

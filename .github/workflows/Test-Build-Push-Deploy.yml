@@ -79,7 +79,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.1.7
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       - name: Terraform init
         id: init-ci
@@ -123,16 +123,23 @@ jobs:
           terraform_version: 1.1.7
           terraform_wrapper: false
 
+      - name: Terraform init
+        id: init-ci
+        run: make terraform-init-ci
+
       - name: Terraform validate
         id: validate
-        run: make terraform-validate-CI
+        run: make terraform-validate-ci ENV=prod
 
       - name: Terraform plan
         id: plan
-        run: make terraform-action TF_ACTION=plan ENV=prod
-
+        run: make terraform-plan ENV=prod
+        
       - name: Deploy to development
-        run: make terraform-action TF_ACTION=apply ENV=prod
+        id: apply
+        # run: make terraform-apply ENV=prod
+      # - name: Deploy to development
+        run: echo 'Deploy to development'
   
   
   

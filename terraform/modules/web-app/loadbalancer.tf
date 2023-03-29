@@ -11,21 +11,21 @@
 # Listener rule       |   -          |   1                      #
 # ###############################################################
 
-resource "aws_lb" "api" {
-  name               = "${var.prefix}-main"
-  load_balancer_type = "application"
-  subnets = [
-    aws_subnet.public_a.id,
-    aws_subnet.public_b.id
-  ]
+# resource "aws_lb" "api" {
+#   name               = "${var.prefix}-main"
+#   load_balancer_type = "application"
+#   subnets = [
+#     aws_subnet.public_a.id,
+#     aws_subnet.public_b.id
+#   ]
 
-  security_groups = [aws_security_group.lb.id]
+#   security_groups = [aws_security_group.lb.id]
 
-  tags = {
-    Name = "${var.prefix}-main-load-balancer"
-  }
+#   tags = {
+#     Name = "${var.prefix}-main-load-balancer"
+#   }
 
-}
+# }
 
 # resource "aws_lb_target_group" "api" {
 #   name        = "${var.prefix}-api"
@@ -34,19 +34,21 @@ resource "aws_lb" "api" {
 #   target_type = "ip"
 #   port        = 8000
 
-#   #TODO: TEST BEFORE DEPLOY IN PROD
-#     # health_check {
-#     #   path                = "/"
-#     #   protocol            = "HTTP"
-#     #   matcher             = "200"
-#     #   interval            = 15
-#     #   timeout             = 3
-#     #   healthy_threshold   = 2
-#     #   unhealthy_threshold = 2
-#     # }
-
 #   health_check {
 #     path = "/"
+#   }
+# }
+
+# TO DELETE
+# resource "aws_lb_target_group" "api_test" {
+#   name        = "${var.prefix}-api-test"
+#   protocol    = "HTTP"
+#   vpc_id      = aws_vpc.main.id
+#   target_type = "ip"
+#   port        = 3000
+
+#   health_check {
+#     path = "/users/test"
 #   }
 # }
 

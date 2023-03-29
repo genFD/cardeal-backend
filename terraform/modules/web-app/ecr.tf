@@ -18,3 +18,16 @@ resource "aws_ecr_repository" "main_repo" {
   }
 }
 
+resource "aws_ecr_repository" "second_repo" {
+  name = "${var.prefix}-repo-test"
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Name = "${var.prefix}-repo-test"
+  }
+}
+
+
+
